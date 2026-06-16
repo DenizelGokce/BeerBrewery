@@ -1,4 +1,5 @@
 ﻿using BeerBrewery.Application.DTOs.Ingredient;
+using BeerBrewery.Application.DTOs.Ingredient.Enums;
 using BeerBrewery.Domain.Entities;
 
 namespace BeerBrewery.Application.Extensions
@@ -10,7 +11,7 @@ namespace BeerBrewery.Application.Extensions
             {
                 Id = ingredient.Id,
                 Name = ingredient.Name,
-                Type = ingredient.Type,
+                Type = Enum.Parse<IngredientType>(ingredient.Type),
                 Quantity = ingredient.Quantity
             };
 
@@ -18,7 +19,7 @@ namespace BeerBrewery.Application.Extensions
             => new()
             {
                 Name = dto.Name,
-                Type = dto.Type,
+                Type = dto.Type.ToString(),
                 Quantity = dto.Quantity
             };
     }

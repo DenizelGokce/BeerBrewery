@@ -1,5 +1,6 @@
 ﻿using BeerBrewery.Application.DTOs.Beer;
 using BeerBrewery.Application.DTOs.Ingredient;
+using BeerBrewery.Application.DTOs.Ingredient.Enums;
 using BeerBrewery.Application.Services;
 using BeerBrewery.Domain.Entities;
 using BeerBrewery.Domain.Interfaces;
@@ -82,7 +83,7 @@ public class BeerServiceTests
             AlcoholPercentage = 5,
             Ingredients = new List<CreateIngredientDto>
         {
-            new() { Name = "Hop", Type = "Hop", Quantity = "100g" }
+            new() { Name = "Hop", Type = IngredientType.Hop, Quantity = "100g" }
         }
         };
 

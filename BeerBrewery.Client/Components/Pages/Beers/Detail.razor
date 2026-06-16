@@ -5,48 +5,71 @@
 @using BeerBrewery.Application.DTOs.Beer
 @rendermode InteractiveServer
 
-<h1>@_beer?.Name</h1>
+<div class="detail-page">
 
-@if (_beer is null)
-{
-    <p>Loading...</p>
-}
-else
-{
-    <p><strong>Description:</strong> @_beer.Description</p>
-    <p><strong>Alcohol:</strong> @_beer.AlcoholPercentage%</p>
-
-    <h3>Ingredients</h3>
-    @if (!_beer.Ingredients.Any())
+    @if (_beer is null)
     {
-        <p>No ingredients found.</p>
+        <p class="muted">Loading beer data...</p>
     }
     else
     {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var ingredient in _beer.Ingredients)
-                {
-                    <tr>
-                        <td>@ingredient.Name</td>
-                        <td>@ingredient.Type</td>
-                        <td>@ingredient.Quantity</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <!-- HERO CARD -->
+        <div class="hero-card">
+
+            <div class="hero-top">
+                <h1>@_beer.Name</h1>
+                <span class="badge">@_beer.AlcoholPercentage% ABV</span>
+            </div>
+
+            <p class="desc">@_beer.Description</p>
+
+            <div class="actions">
+                <a href="/beers" class="glass-btn">Back</a>
+
+                <button class="glass-btn danger"
+                        @onclick="DeleteBeer">
+                    Delete Beer
+                </button>
+            </div>
+
+        </div>
+
+        <!-- INGREDIENTS -->
+        <div class="section-card">
+
+            <h3>Ingredients</h3>
+
+            @if (!_beer.Ingredients.Any())
+            {
+                <p class="muted">No ingredients in this recipe.</p>
+            }
+            else
+            {
+                <div class="ingredient-grid">
+
+                    @foreach (var ingredient in _beer.Ingredients)
+                    {
+                        <div class="ingredient-card">
+
+                            <div class="ingredient-name">
+                                @ingredient.Name
+                            </div>
+
+                            <div class="ingredient-meta">
+                                <span>@ingredient.Type</span>
+                                <span class="qty">@ingredient.Quantity</span>
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+            }
+
+        </div>
     }
 
-    <button class="btn btn-danger" @onclick="DeleteBeer">Delete Beer</button>
-    <a href="/beers" class="btn btn-secondary ms-2">Back</a>
-}
+</div>
 
 @code {
     [Parameter] public Guid Id { get; set; }

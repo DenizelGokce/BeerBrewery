@@ -8,6 +8,7 @@ namespace BeerBrewery.Domain.Interfaces
     public interface IBeerRepository : IRepository<Beer>
     {
         Task<bool> ExistsByNameAsync(string name);
+        Task<IEnumerable<Beer>> GetAllWithIngredientsAsync();
         Task<Beer?> GetByIdWithIngredientsAsync(Guid id);
     }
 }

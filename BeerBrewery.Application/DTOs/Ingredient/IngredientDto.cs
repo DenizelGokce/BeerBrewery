@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BeerBrewery.Application.DTOs.Ingredient.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +9,7 @@ namespace BeerBrewery.Application.DTOs.Ingredient
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string Type { get; set; } = string.Empty;
+        public IngredientType Type { get; set; }
         public string Quantity { get; set; } = string.Empty;
     }
 }

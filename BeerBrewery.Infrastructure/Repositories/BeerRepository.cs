@@ -16,6 +16,14 @@ namespace BeerBrewery.Infrastructure.Repositories
             => await DbSet.AnyAsync(b => b.Name.ToLower() == name.ToLower()
                 && b.DeletedDate == null);
 
+        public async Task<IEnumerable<Beer>> GetAllWithIngredientsAsync()
+        {
+            return await DbSet
+                .Include(b => b.Ingredients)
+                .Where(b => b.DeletedDate == null)
+                .ToListAsync();
+        }
+
         public async Task<Beer?> GetByIdWithIngredientsAsync(Guid id)
             => await DbSet
                 .Include(b => b.Ingredients)

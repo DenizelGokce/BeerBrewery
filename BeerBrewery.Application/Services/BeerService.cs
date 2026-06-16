@@ -1,6 +1,8 @@
 ﻿using BeerBrewery.Application.DTOs.Beer;
+using BeerBrewery.Application.DTOs.Ingredient;
 using BeerBrewery.Application.Extensions;
 using BeerBrewery.Application.Interfaces;
+using BeerBrewery.Domain.Entities;
 using BeerBrewery.Domain.Interfaces;
 
 namespace BeerBrewery.Application.Services;
@@ -36,6 +38,18 @@ public class BeerService : IBeerService
         if (await _beerRepository.ExistsByNameAsync(dto.Name))
             throw new InvalidOperationException($"A beer with the name '{dto.Name}' already exists.");
 
+        // Business rule 3:
+        if (dto.Ingredients.Count < 1)
+            throw new InvalidOperationException("A beer must contain at least one ingredient.");
+
+        if (dto.Ingredients.Any(i =>
+            string.IsNullOrWhiteSpace(i.Name) ||
+            i.Type == default ||
+            string.IsNullOrWhiteSpace(i.Quantity)))
+        {
+            throw new InvalidOperationException("All ingredient fields must be filled.");
+        }
+
         var beer = dto.ToEntity();
         await _beerRepository.AddAsync(beer);
     }
@@ -43,5 +57,11 @@ public class BeerService : IBeerService
     public async Task DeleteAsync(Guid id)
     {
         await _beerRepository.DeleteAsync(id);
+    }
+
+    public async Task<IEnumerable<BeerDto>> GetAllIngredientsAsync()
+    {
+        var beers = await _beerRepository.GetAllWithIngredientsAsync();
+        return beers.Select(b => b.ToDto());
     }
 }

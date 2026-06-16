@@ -1,7 +1,87 @@
 ﻿@page "/"
+@inject IBeerService BeerService
+@using BeerBrewery.Application.Interfaces
+@using BeerBrewery.Application.DTOs.Beer
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<div class="dashboard">
 
-<h1>Hello, world!</h1>
+    <div class="dash-header">
+        <h1>Dashboard</h1>
+        <p class="muted">Brewery overview & insights</p>
+    </div>
 
-Welcome to your new app.
+    @if (_beers is null)
+    {
+        <p class="muted">Loading dashboard...</p>
+    }
+    else
+    {
+        <!-- STATS -->
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h2>@_beers.Count()</h2>
+                <p>Total Beers</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>@AverageAbv()</h2>
+                <p>Average ABV</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>@TotalIngredients()</h2>
+                <p>Total Ingredients</p>
+            </div>
+
+        </div>
+
+        <!-- RECENT BEERS -->
+        <div class="panel">
+
+            <h3>Recent Beers</h3>
+
+            <div class="recent-list">
+
+                @foreach (var beer in _beers.Take(5))
+                {
+                    <div class="recent-item">
+
+                        <div>
+                            <strong>@beer.Name</strong>
+                            <div class="muted small">@beer.Description</div>
+                        </div>
+
+                        <span class="badge">@beer.AlcoholPercentage% ABV</span>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+@code {
+    private IEnumerable<BeerDto>? _beers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _beers = await BeerService.GetAllIngredientsAsync();
+    }
+
+    private double AverageAbv()
+    {
+        if (_beers == null || !_beers.Any()) return 0;
+        return Math.Round(_beers.Average(b => b.AlcoholPercentage), 1);
+    }
+
+    private int TotalIngredients()
+    {
+        if (_beers == null) return 0;
+        return _beers.Sum(b => b.Ingredients?.Count ?? 0);
+    }
+}
