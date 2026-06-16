@@ -34,6 +34,17 @@ namespace BeerBrewery.Client
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                var connectionString = db.Database.GetConnectionString()!;
+                var dbPath = connectionString.Replace("Data Source=", "").Trim();
+
+                if (!Path.IsPathRooted(dbPath))
+                    dbPath = Path.GetFullPath(Path.Combine(app.Environment.ContentRootPath, dbPath));
+
+                var dbFolder = Path.GetDirectoryName(dbPath);
+                if (!string.IsNullOrEmpty(dbFolder))
+                    Directory.CreateDirectory(dbFolder);
+
                 db.Database.Migrate();
             }
 

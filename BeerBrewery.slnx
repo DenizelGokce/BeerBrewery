@@ -1,7 +1,4 @@
 <Solution>
-  <Folder Name="/Solution Items/">
-    <File Path="docker-compose.yml" />
-  </Folder>
   <Folder Name="/src/">
     <Project Path="D:/GIT/2026/BeerBrewery/BeerBrewery.Application/BeerBrewery.Application.csproj" />
     <Project Path="D:/GIT/2026/BeerBrewery/BeerBrewery.Client/BeerBrewery.Client.csproj" />
