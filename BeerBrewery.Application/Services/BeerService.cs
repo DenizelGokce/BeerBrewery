@@ -44,7 +44,6 @@ public class BeerService : IBeerService
 
         if (dto.Ingredients.Any(i =>
             string.IsNullOrWhiteSpace(i.Name) ||
-            i.Type == default ||
             string.IsNullOrWhiteSpace(i.Quantity)))
         {
             throw new InvalidOperationException("All ingredient fields must be filled.");

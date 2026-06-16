@@ -83,7 +83,7 @@ public class BeerServiceTests
             AlcoholPercentage = 5,
             Ingredients = new List<CreateIngredientDto>
         {
-            new() { Name = "Hop", Type = IngredientType.Hop, Quantity = "100g" }
+            new() { Name = "Hop", Type = IngredientType.Sugar, Quantity = "100g" }
         }
         };
 
