@@ -1,0 +1,67 @@
+﻿@page "/beers"
+@inject IBeerService BeerService
+@using BeerBrewery.Application.Interfaces
+@using BeerBrewery.Application.DTOs.Beer
+@rendermode InteractiveServer
+
+<div class="page-header">
+    <div>
+        <h1>Beers</h1>
+        <p class="muted">Manage your brewery creations</p>
+    </div>
+
+    <a href="/beers/create" class="btn btn-primary">
+        + New Beer
+    </a>
+</div>
+
+@if (_beers is null)
+{
+    <p class="muted">Loading beers...</p>
+}
+else if (!_beers.Any())
+{
+    <div class="empty-state">
+        <h3>No beers yet</h3>
+        <p>Start by creating your first recipe.</p>
+    </div>
+}
+else
+{
+    <div class="card-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>ABV</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var beer in _beers)
+                {
+                    <tr>
+                        <td class="strong">@beer.Name</td>
+                        <td class="muted">@beer.Description</td>
+                        <td>@beer.AlcoholPercentage%</td>
+                        <td class="actions">
+                            <a href="/beers/@beer.Id" class="btn btn-sm btn-secondary">
+                                Details
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private IEnumerable<BeerDto>? _beers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _beers = await BeerService.GetAllAsync();
+    }
+}

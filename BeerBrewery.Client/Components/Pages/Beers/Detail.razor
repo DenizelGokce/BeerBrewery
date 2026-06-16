@@ -1,0 +1,65 @@
+﻿@page "/beers/{Id:guid}"
+@inject IBeerService BeerService
+@inject NavigationManager Navigation
+@using BeerBrewery.Application.Interfaces
+@using BeerBrewery.Application.DTOs.Beer
+@rendermode InteractiveServer
+
+<h1>@_beer?.Name</h1>
+
+@if (_beer is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <p><strong>Description:</strong> @_beer.Description</p>
+    <p><strong>Alcohol:</strong> @_beer.AlcoholPercentage%</p>
+
+    <h3>Ingredients</h3>
+    @if (!_beer.Ingredients.Any())
+    {
+        <p>No ingredients found.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ingredient in _beer.Ingredients)
+                {
+                    <tr>
+                        <td>@ingredient.Name</td>
+                        <td>@ingredient.Type</td>
+                        <td>@ingredient.Quantity</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <button class="btn btn-danger" @onclick="DeleteBeer">Delete Beer</button>
+    <a href="/beers" class="btn btn-secondary ms-2">Back</a>
+}
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    private BeerDto? _beer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _beer = await BeerService.GetByIdAsync(Id);
+    }
+
+    private async Task DeleteBeer()
+    {
+        await BeerService.DeleteAsync(Id);
+        Navigation.NavigateTo("/beers");
+    }
+}

@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="D:/GIT/2026/BeerBrewery/BeerBrewery.Application/BeerBrewery.Application.csproj" />
+    <Project Path="D:/GIT/2026/BeerBrewery/BeerBrewery.Client/BeerBrewery.Client.csproj" />
+    <Project Path="D:/GIT/2026/BeerBrewery/BeerBrewery.Domain/BeerBrewery.Domain.csproj" />
+    <Project Path="D:/GIT/2026/BeerBrewery/BeerBrewery.Infrastructure/BeerBrewery.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="BeerBrewery.Tests/BeerBrewery.Tests.csproj" Id="136bb2ae-a6d0-4199-bb7e-a64aefa3ffa4" />
+  </Folder>
+</Solution>
